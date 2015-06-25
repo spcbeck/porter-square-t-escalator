@@ -1,0 +1,19 @@
+{
+  "name": "porter-square-t-escalator",
+  "version": "0.1.3",
+  "description": "An app for tracking and displaying how often the Porter Square T Escalator is broken.",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/spcbeck/porter-square-t-escalator.git"
+  },
+  "author": "Sean Beck",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/spcbeck/porter-square-t-escalator/issues"
+  },
+  "homepage": "https://github.com/spcbeck/porter-square-t-escalator"
+}
