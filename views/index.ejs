@@ -1,11 +1,42 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <title><%= title %></title>
+    <title>Is the Porter Square T Escalator Broken</title>
     <link rel='stylesheet' href='/stylesheets/style.css' />
     <link rel='stylesheet' href='/stylesheets/normalize.css' />
   </head>
-  <body style="text-align: center;">
-    <h1 class="brokenIndicator"><%= title %></h1>
+  <body>
+	<section class="mainDisplay">
+	    <ui-view></ui-view>
+    </section>
+
+    <script type="text/ng-template" id="/home.html">
+    	<h1 class="brokenIndicator"><%= title %></h1>
+
+	    <a class="vote" href="#">wait... but it is broken</a>
+	    <a style="display: none;" class="vote" href="#">no it isn't</a>
+    </script>
+
+    <script type="text/ng-template" id="/comment.html">
+    	<form class="comment">
+    		<h2>Hello!</h2>
+    		<p>
+    			I'm tracking when the Porter Square T escalator is broken, and you can help me out.
+    		</p>
+    		<p>
+    			Click the button below to run the crazy algorithm that updates the escalator status indicator.
+    		</p>
+    		<textarea placeholder="optional comment"/>
+    		<button type="submit">Update Status Indicator</button>
+    	</form>
+    </script>
+
+    <script type="text/ng-template" id="/thanks.html">
+    	<section class="thanks">
+    		<h2 class="highlight">Thanks!</h2>
+    		<h2 class="highlight">Thanks!</h2>
+    		<!--<button type="button">view the escalator data</button>-->
+    	</section>
+    </script>
   </body>
 </html>

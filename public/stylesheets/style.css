@@ -1,4 +1,4 @@
-html, body {
+html, body, section.mainDisplay {
 	height: 100%;
 }
 
@@ -13,6 +13,10 @@ a {
   color: #00B7FF;
 }
 
+section.mainDisplay {
+	text-align: center;
+}
+
 h1.brokenIndicator {
 	background-color: rgba(50,50,50,.7);
 	color: #fff;
@@ -20,4 +24,12 @@ h1.brokenIndicator {
 	padding: 20px;
 	width: 150px;
 	margin: 0 auto;
+}
+
+a.vote {
+	font-size: 2em;
+	position: fixed;
+	bottom: 20px;
+	left: 0;
+	width: 100%;
 }
