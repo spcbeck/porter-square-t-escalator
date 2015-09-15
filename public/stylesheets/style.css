@@ -38,3 +38,9 @@ a.vote {
 	width: 400px;
 	margin: 0 auto;
 }
+
+.alertContainer {
+	position: fixed;
+	top: 20px;
+	right: 20px;
+}

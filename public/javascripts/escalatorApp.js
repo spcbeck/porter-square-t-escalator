@@ -9,6 +9,7 @@ function($scope, entries){
 	$scope.updatedStatus = "";
 	$scope.statusSet = "";
 	$scope.status = true;
+	$scope.showSuccess = false;
 
 	if($scope.status == false) {
 		$scope.statusDisplayName = "no";
@@ -39,6 +40,9 @@ function($scope, entries){
 			date: date,
 		});
 
+		$scope.showSuccess = true;
+
+		$scope.statusSet = false;
 		$scope.comment = '';
 	};
 }]);
@@ -48,7 +52,6 @@ app.controller('EntriesCtrl', [
 'entries',
 function($scope, entries){
 	$scope.entriesList = entries.entries;
-	console.log($scope.entriesList);
 
 }])
 
