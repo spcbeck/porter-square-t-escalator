@@ -4,4 +4,4 @@ var StatusSchema = new mongoose.Schema({
 	status: Boolean,
 });
 
-mongoose.model('Entry', EntrySchema);
+mongoose.model('status', StatusSchema);
