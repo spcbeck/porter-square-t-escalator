@@ -2,7 +2,7 @@ var express = require('express');
 var mongoose = require('mongoose');
 
 var Entry = mongoose.model('Entry');
-var Status = mongoose.model('Status');
+//var Status = mongoose.model('Status');
 var router = express.Router();
 
 /* GET home page. */
