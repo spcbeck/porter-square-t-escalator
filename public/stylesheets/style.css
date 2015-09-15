@@ -33,3 +33,8 @@ a.vote {
 	left: 0;
 	width: 100%;
 }
+
+.commentForm {
+	width: 400px;
+	margin: 0 auto;
+}

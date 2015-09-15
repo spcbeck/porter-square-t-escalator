@@ -4,9 +4,12 @@
     <title>Is the Porter Square T Escalator Broken</title>
     <link rel='stylesheet' href='/stylesheets/style.css' />
     <link rel='stylesheet' href='/stylesheets/normalize.css' />
+    <link rel='stylesheet' href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css" />
 
 	<script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.3.10/angular.min.js"></script>
     <script src="http://cdnjs.cloudflare.com/ajax/libs/angular-ui-router/0.2.10/angular-ui-router.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.10.6/moment.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/angular-moment/0.10.3/angular-moment.js"></script>
     <script src="/javascripts/escalatorApp.js"></script>
   </head>
   <body ng-app="porterSquareTEscalator">
@@ -15,30 +18,39 @@
     </section>
 
     <script type="text/ng-template" id="/home.html">
-    	<h1 class="brokenIndicator"><%= title %></h1>
+        <div ng-show="!statusSet">
+        	<h1 class="brokenIndicator">{{ statusDisplayName }}</h1>
 
-	    <a class="vote" href="#/update">wait... but it is broken</a>
-	    <a style="display: none;" class="vote" href="#/update">no it isn't</a>
+    	    <a class="vote" ng-click="setBroken()" ng-show="!statusCheck" href="#">wait... but it is broken</a>
+    	    <a  class="vote" ng-click="setWorking()" ng-show="statusCheck" href="#">actually, it's working</a>
+        </div>
+
+
+        <div class="panel commentForm" ng-show="statusSet">
+            <form ng-submit="addEntry()" class="panel-body">
+                <h2>Hello!</h2>
+                <p>
+                    I'm tracking when the Porter Square T escalator is broken, and you can help me out.
+                </p>
+                <p>
+                    Click the button below to run the crazy algorithm that updates the escalator status indicator.
+                </p>
+                <div class="form-group">
+                    <textarea class="form-control" placeholder="optional comment" ng-model="comment"></textarea>
+                </div>
+                <button type="submit" class="btn btn-primary btn-block">Update Status Indicator</button>
+            </form>
+        </div>
     </script>
 
-    <script type="text/ng-template" id="/update.html">
-    	<form class="update">
-    		<h2>Hello!</h2>
-    		<p>
-    			I'm tracking when the Porter Square T escalator is broken, and you can help me out.
-    		</p>
-    		<p>
-    			Click the button below to run the crazy algorithm that updates the escalator status indicator.
-    		</p>
-    		<textarea placeholder="optional comment"></textarea>
-    		<button type="submit">Update Status Indicator</button>
-    	</form>
-    </script>
-
-    <script type="text/ng-template" id="/thanks.html">
-    	<section class="thanks">
-    		<h2 class="highlight">Thanks!</h2>
-    		<!--<button type="button">view the escalator data</button>-->
+    <script type="text/ng-template" id="/entries.html">
+    	<section class="panel panel-default">
+            <div class="panel-heading">
+                <h3 class="panel-title">Entries</h3>
+            </div>
+            <ul class="list-group" ng-repeat="entry in entriesList">
+                <li class="list-group-item"><h2>{{ entry.status }}</h2> - {{ entry.date | amDateFormat:'dddd, MMMM Do YYYY, h:mm:ss a'}}<div>{{entry.comment}}</div></li>
+            </ul>
     	</section>
     </script>
   </body>

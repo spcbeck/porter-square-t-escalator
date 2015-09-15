@@ -5,11 +5,15 @@ var logger = require('morgan');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
 var mongoose = require('mongoose');
+var moment = require('moment');
+
+require('./models/entries');
 
 mongoose.connect('mongodb://heroku_qlcrxz2p:ibda5hmkap9tsasjfodbv9sdg2@ds047592.mongolab.com:47592/heroku_qlcrxz2p');
 
 var routes = require('./routes/index');
 var users = require('./routes/users');
+
 
 var app = express();
 
