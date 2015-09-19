@@ -4,23 +4,26 @@ var app = angular.module('porterSquareTEscalator', ['ui.router', 'angularMoment'
 app.controller('MainCtrl', [
 '$scope',
 'entries',
-function($scope, entries){
-	$scope.statusDisplayName = "yes";
+'status',
+function($scope, entries, status){
+	$scope.statusDisplayName = "";
 	$scope.updatedStatus = "";
 	$scope.statusSet = "";
-	$scope.status = true;
+	$scope.statusContainer = "";
 	$scope.showSuccess = false;
 
-	if($scope.status == false) {
-		$scope.statusDisplayName = "no";
-		$scope.statusCheck = false;
-	}
+	status.getStatus().success(function(data) { 
+	    $scope.statusContainer = data.status;
 
-	if($scope.status == true) {
-		$scope.statusDisplayName = "yes";
-		$scope.statusCheck = true;
-	}
-
+	    if($scope.statusContainer == false) {
+			$scope.statusDisplayName = "no";
+			$scope.statusCheck = false;
+		} else if($scope.statusContainer == true) {
+			$scope.statusDisplayName = "yes";
+			$scope.statusCheck = true;
+		}
+	});
+	
 	$scope.setBroken = function() {
 		$scope.updatedStatus = false;
 		$scope.statusSet = true;
@@ -29,6 +32,10 @@ function($scope, entries){
 	$scope.setWorking = function() {
 		$scope.updatedStatus = true;
 		$scope.statusSet = true;
+	}
+
+	$scope.changeStatus = function() {
+		status.change();
 	}
 
 	$scope.addEntry = function() {
@@ -45,6 +52,13 @@ function($scope, entries){
 		$scope.statusSet = false;
 		$scope.comment = '';
 	};
+
+	$scope.addInitialStatus = function() {
+		status.create({
+			status: true
+		});
+	}
+
 }]);
 
 app.controller('EntriesCtrl', [
@@ -66,12 +80,31 @@ app.factory('entries', ['$http', function($http){
 	}
 
 	o.getAll = function() {
-		return $http.get('/entries').success(function(data){
+		return $http.getJSON('/entries').success(function(data){
 			angular.copy(data, o.entries);
 		})
 	}
 
 	return o;
+}])
+
+app.factory('status', ['$http', function($http){
+	var s = { status };
+
+	s.change = function() {
+		return $http.put('/status').success(function(data){
+	    	s.getStatus();
+	    	console.log('success put');
+	    })
+	}
+
+	s.getStatus = function() {
+		return $http.get('/status').success(function(data){
+			s.status = data.status;
+		})
+	}
+
+	return s;
 }])
 
 
@@ -84,6 +117,7 @@ app.config([
 			url: '/home',
 			templateUrl: '/home.html',
 			controller: 'MainCtrl'
+			
 		})
 		.state('admin', {
 			url: '/admin',

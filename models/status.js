@@ -1,7 +1,7 @@
 var mongoose = require('mongoose');
 
 var StatusSchema = new mongoose.Schema({
-	status: Boolean,
+	status: { type: Boolean, default: false }
 });
 
-mongoose.model('status', StatusSchema);
+mongoose.model('Status', StatusSchema);
