@@ -3,7 +3,6 @@ var mongoose = require('mongoose');
 var fs = require('fs');
 
 var Entry = mongoose.model('Entry');
-var Status = mongoose.model('Status');
 var router = express.Router();
 
 
@@ -16,8 +15,11 @@ router.get('/', function(req, res, next) {
 });
 
 router.get('/entries', function(req, res, next) {
+	console.log("entries")
 	Entry.find(function(err, entries){
 	    if(err){ return next(err); }
+
+	    console.log(entries);
 
 	    res.json(entries);
 	  });

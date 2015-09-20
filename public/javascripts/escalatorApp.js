@@ -1,5 +1,18 @@
 var app = angular.module('porterSquareTEscalator', ['ui.router', 'angularMoment']);
 
+app.controller("AdminCtrl", [
+'$scope',
+'entries',
+'status',
+function($scope, entries, status){
+	$scope.entriesList = entries.entries;
+
+	console.log(entries)
+
+	$scope.changeStatus = function() {
+		status.change();
+	};
+}]);
 
 app.controller('MainCtrl', [
 '$scope',
@@ -34,10 +47,6 @@ function($scope, entries, status){
 		$scope.statusSet = true;
 	}
 
-	$scope.changeStatus = function() {
-		status.change();
-	}
-
 	$scope.addEntry = function() {
 		var date = new Date();
 
@@ -61,15 +70,6 @@ function($scope, entries, status){
 
 }]);
 
-app.controller('EntriesCtrl', [
-'$scope',
-'entries',
-function($scope, entries){
-	$scope.entriesList = entries.entries;
-
-}])
-
-
 app.factory('entries', ['$http', function($http){
 	var o = { entries: [] };
 
@@ -80,7 +80,7 @@ app.factory('entries', ['$http', function($http){
 	}
 
 	o.getAll = function() {
-		return $http.getJSON('/entries').success(function(data){
+		return $http.get('/entries').success(function(data){
 			angular.copy(data, o.entries);
 		})
 	}
@@ -94,7 +94,6 @@ app.factory('status', ['$http', function($http){
 	s.change = function() {
 		return $http.put('/status').success(function(data){
 	    	s.getStatus();
-	    	console.log('success put');
 	    })
 	}
 
@@ -122,19 +121,17 @@ app.config([
 		.state('admin', {
 			url: '/admin',
 			templateUrl: '/admin.html',
-			controller: 'AdminCtrl'
-		})
-		.state('entries', {
-			url: '/entries',
-			templateUrl: '/entries.html',
-			controller: 'EntriesCtrl',
+			controller: 'AdminCtrl',
 			resolve: {
 					postPromise: ['entries', function(entries) {
-						return entries.getAll();
+						entries.getAll().success(function(data) {
+							console.log(data);
+							return data;
+						});
+						
 					}]
 				}
 		})
 
 		$urlRouterProvider.otherwise('home');
-
 	}]);

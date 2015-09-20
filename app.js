@@ -8,7 +8,6 @@ var mongoose = require('mongoose');
 var moment = require('moment');
 
 require('./models/entries');
-require('./models/status');
 
 mongoose.connect('mongodb://heroku_qlcrxz2p:ibda5hmkap9tsasjfodbv9sdg2@ds047592.mongolab.com:47592/heroku_qlcrxz2p');
 
