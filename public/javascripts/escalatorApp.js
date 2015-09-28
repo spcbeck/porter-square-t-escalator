@@ -104,6 +104,58 @@ app.factory('status', ['$http', function($http){
 	}
 
 	return s;
+}]);
+
+app.factory('auth' ['$http', '$window', function($http, $window){
+	var auth = {}
+
+	auth.saveToken = function(token) {
+		$window.localStorage['porter-token'] = token;
+	}
+
+	auth.getToken = function() {
+		return $window.localStorage['porter-token'];
+	}
+
+	auth.logOut = function(){
+	  $window.localStorage.removeItem('porter-token');
+	};
+
+	auth.isLoggedIn = function() {
+		var token = auth.getToken();
+
+		if(token) {
+			var payload = JSON.parse($window.atob(token.split('.')[1]));
+
+			return payload.exp > Date.now() / 1000;
+		} else {
+			return false;
+		}
+	}
+
+	auth.currentUser = function() {
+		if(auth.isLogged()) {
+			var token - auth.getToken();
+
+			var payload = JSON.parse($window.atob(token.split('.')[1]));
+
+			return payload.username;
+		}
+	}
+
+	auth.register = function(user) {
+		return $http.post('/register', user).success(function() {
+			auth.saveToken(data.token)
+		})
+	}
+
+	auth.logIn = function(user){
+	  return $http.post('/login', user).success(function(data){
+	    auth.saveToken(data.token);
+	  });
+	};
+
+	return auth;
 }])
 
 
@@ -113,7 +165,7 @@ app.config([
 	function($stateProvider, $urlRouterProvider) {
 		$stateProvider
 		.state('home', {
-			url: '/home',
+			url: '/',
 			templateUrl: '/home.html',
 			controller: 'MainCtrl'
 			
@@ -133,5 +185,5 @@ app.config([
 				}
 		})
 
-		$urlRouterProvider.otherwise('home');
+		$urlRouterProvider.otherwise('/');
 	}]);

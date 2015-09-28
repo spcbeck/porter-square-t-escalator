@@ -57,7 +57,10 @@
                         <h3 class="panel-title">Entries</h3>
                     </div>
                     <ul class="list-group" ng-repeat="entry in entriesList">
-                        <li class="list-group-item"><h2>{{ entry.status }}</h2> - {{ entry.date | amDateFormat:'dddd, MMMM Do YYYY, h:mm:ss a'}}<div>{{entry.comment}}</div></li>
+                        <li class="list-group-item">
+                            <h2>{{ entry.status }} <small>{{ entry.date | amDateFormat:'dddd, MMMM Do YYYY, h:mm:ss a'}}</small></h2>        
+                            <div>{{entry.comment}}</div>
+                        </li>
                     </ul>
                 </section>
             </div>
