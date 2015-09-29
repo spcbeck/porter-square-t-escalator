@@ -4,15 +4,38 @@ app.controller("AdminCtrl", [
 '$scope',
 'entries',
 'status',
-function($scope, entries, status){
+'auth',
+function($scope, entries, status, auth){
 	$scope.entriesList = entries.entries;
-
-	console.log(entries)
 
 	$scope.changeStatus = function() {
 		status.change();
 	};
 }]);
+
+app.controller('AuthCtrl', [
+	'$scope',
+	'$state',
+	'auth',
+	function($scope, $state, auth){
+		$scope.user = {};
+
+		$scope.register = function(){
+			auth.register($scope.user).error(function(error){
+				$scope.error = error;
+			}).then(function() {
+				$state.go('admin');
+			});
+		};
+
+		$scope.logIn = function(){
+		    auth.logIn($scope.user).error(function(error){
+		      	$scope.error = error;
+		    }).then(function(){
+		      	$state.go('admin');
+		    });
+		};
+	}])
 
 app.controller('MainCtrl', [
 '$scope',
@@ -88,11 +111,13 @@ app.factory('entries', ['$http', function($http){
 	return o;
 }])
 
-app.factory('status', ['$http', function($http){
+app.factory('status', ['$http', 'auth', function($http, auth){
 	var s = { status };
 
 	s.change = function() {
-		return $http.put('/status').success(function(data){
+		return $http.put('/status', {
+			headers: {Authorization: 'Bearer ' + auth.getToken()}
+		}).success(function(data){
 	    	s.getStatus();
 	    })
 	}
@@ -106,8 +131,8 @@ app.factory('status', ['$http', function($http){
 	return s;
 }]);
 
-app.factory('auth' ['$http', '$window', function($http, $window){
-	var auth = {}
+app.factory('auth', ['$http', '$window', function($http, $window){
+	var auth = {};
 
 	auth.saveToken = function(token) {
 		$window.localStorage['porter-token'] = token;
@@ -135,7 +160,7 @@ app.factory('auth' ['$http', '$window', function($http, $window){
 
 	auth.currentUser = function() {
 		if(auth.isLogged()) {
-			var token - auth.getToken();
+			var token = auth.getToken();
 
 			var payload = JSON.parse($window.atob(token.split('.')[1]));
 
@@ -177,12 +202,36 @@ app.config([
 			resolve: {
 					postPromise: ['entries', function(entries) {
 						entries.getAll().success(function(data) {
-							console.log(data);
 							return data;
 						});
 						
 					}]
+				},
+			onEnter: ['$state', 'auth', function($state, auth){
+				if(!auth.isLoggedIn()){
+					$state.go('login');
 				}
+			}]
+		})
+		.state('register', {
+			url: '/register',
+			templateUrl: '/register.html',
+			controller: 'AuthCtrl',
+			onEnter: ['$state', 'auth', function($state, auth){
+				if(auth.isLoggedIn()){
+					$state.go('/admin');
+				}
+			}]
+		})
+		.state('login', {
+			url: '/login',
+			templateUrl: '/login.html',
+			controller: 'AuthCtrl',
+			onEnter: ['$state', 'auth', function($state, auth){
+				if(auth.isLoggedIn()){
+					$state.go('/admin');
+				}
+			}]
 		})
 
 		$urlRouterProvider.otherwise('/');

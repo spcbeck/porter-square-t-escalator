@@ -1,73 +1,124 @@
 <!DOCTYPE html>
 <html>
-  <head>
-    <title>Is the Porter Square T Escalator Broken</title>
-    <link rel='stylesheet' href='/stylesheets/style.css' />
-    <link rel='stylesheet' href='/stylesheets/normalize.css' />
-    <link rel='stylesheet' href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css" />
+	<head>
+		<title>Is the Porter Square T Escalator Broken</title>
+		<link rel='stylesheet' href='/stylesheets/style.css' />
+		<link rel='stylesheet' href='/stylesheets/normalize.css' />
+		<link rel='stylesheet' href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css" />
 
-	<script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.3.10/angular.js"></script>
-    <script src="http://cdnjs.cloudflare.com/ajax/libs/angular-ui-router/0.2.10/angular-ui-router.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.10.6/moment.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/angular-moment/0.10.3/angular-moment.js"></script>
-    <script src="/javascripts/escalatorApp.js"></script>
-  </head>
-  <body ng-app="porterSquareTEscalator">
-	<section class="mainDisplay">
-	    <ui-view></ui-view>
-    </section>
+		<script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.3.10/angular.js"></script>
+		<script src="http://cdnjs.cloudflare.com/ajax/libs/angular-ui-router/0.2.10/angular-ui-router.js"></script>
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.10.6/moment.js"></script>
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/angular-moment/0.10.3/angular-moment.js"></script>
+		<script src="/javascripts/escalatorApp.js"></script>
+	</head>
+	<body ng-app="porterSquareTEscalator">
+	  	<section class="mainDisplay">
+			<ui-view></ui-view>
+		</section>
 
-    <script type="text/ng-template" id="/home.html">
-        <div ng-show="!statusSet">
-        	<h1 class="brokenIndicator">{{ statusDisplayName }}</h1>
+		<script type="text/ng-template" id="/home.html">
+			<div ng-show="!statusSet">
+				<h1 class="brokenIndicator">{{ statusDisplayName }}</h1>
 
-    	    <a class="vote" ng-click="setBroken()" ng-show="!statusCheck" href="#">wait... but it is broken</a>
-    	    <a  class="vote" ng-click="setWorking()" ng-show="statusCheck" href="#">actually, it's working</a>
-        </div>
+				<a class="vote" ng-click="setBroken()" ng-show="!statusCheck" href="#">wait... but it is broken</a>
+				<a class="vote" ng-click="setWorking()" ng-show="statusCheck" href="#">actually, it's working</a>
+			</div>
 
 
-        <div class="panel commentForm" ng-show="statusSet">
-            <form ng-submit="addEntry()" class="panel-body">
-                <h2>Hello!</h2>
-                <p>
-                    I'm tracking when the Porter Square T escalator is broken, and you can help me out.
-                </p>
-                <p>
-                    Click the button below to run the crazy algorithm that updates the escalator status indicator.
-                </p>
-                <div class="form-group">
-                    <textarea class="form-control" placeholder="optional comment" ng-model="comment"></textarea>
-                </div>
-                <button type="submit" class="btn btn-primary btn-block">Update Status Indicator</button>
-            </form>
-        </div>
+			<div class="panel commentForm" ng-show="statusSet">
+				<form ng-submit="addEntry()" class="panel-body">
+					<h2>Hello!</h2>
+					<p>
+						I'm tracking when the Porter Square T escalator is broken, and you can help me out.
+					</p>
+					<p>
+						Click the button below to run the crazy algorithm that updates the escalator status indicator.
+					</p>
+					<div class="form-group">
+						<textarea class="form-control" placeholder="optional comment" ng-model="comment"></textarea>
+					</div>
+					<button type="submit" class="btn btn-primary btn-block">Update Status Indicator</button>
+				</form>
+			</div>
 
-        <div class="alertContainer">
-            <div class="alert alert-success" ng-show="showSuccess"><span class="glyphicon glyphicon-ok"></span> thanks for letting us know about the escalator!</div>
-        </div>
-    </script>
+			<div class="alertContainer">
+				<div class="alert alert-success" ng-show="showSuccess"><span class="glyphicon glyphicon-ok"></span> thanks for letting us know about the escalator!</div>
+			</div>
+		</script>
 
-    <script type="text/ng-template" id="/admin.html">
-        <h1>Admin Page</h1>
+		<script type="text/ng-template" id="/admin.html">
+			<h1>Admin Page</h1>
 
-        <div class="row-fluid">
-            <div class="col-md-8">
-                <section class="panel panel-default">
-                    <div class="panel-heading">
-                        <h3 class="panel-title">Entries</h3>
-                    </div>
-                    <ul class="list-group" ng-repeat="entry in entriesList">
-                        <li class="list-group-item">
-                            <h2>{{ entry.status }} <small>{{ entry.date | amDateFormat:'dddd, MMMM Do YYYY, h:mm:ss a'}}</small></h2>        
-                            <div>{{entry.comment}}</div>
-                        </li>
-                    </ul>
-                </section>
-            </div>
-            <div class="col-md-4">
-                 <button type="button" class="btn btn-primary btn-block" ng-click="changeStatus()">Change status</button>
-            </div>
-        </div>
-    </script>
-  </body>
+			<div class="row-fluid">
+				<div class="col-md-8">
+					<section class="panel panel-default">
+						<div class="panel-heading">
+							<h3 class="panel-title">Entries</h3>
+						</div>
+						<ul class="list-group" ng-repeat="entry in entriesList">
+							<li class="list-group-item">
+								<h2>{{ entry.status }} <small>{{ entry.date | amDateFormat:'dddd, MMMM Do YYYY, h:mm:ss a'}}</small></h2>        
+								<div>{{entry.comment}}</div>
+							</li>
+						</ul>
+					</section>
+				</div>
+				<div class="col-md-4">
+					 <button type="button" class="btn btn-primary btn-block" ng-click="changeStatus()">Change status</button>
+				</div>
+			</div>
+		</script>
+
+		<script type="text/ng-template" id="/register.html">
+
+		  <div ng-show="error" class="alert alert-danger row">
+			<span>{{ error.message }}</span>
+		  </div>
+
+		  <form ng-submit="register()"
+			style="margin-top:30px;">
+			<h3>Register</h3>
+
+			<div class="form-group">
+			  <input type="text"
+			  class="form-control"
+			  placeholder="Username"
+			  ng-model="user.username"></input>
+			</div>
+			<div class="form-group">
+			  <input type="password"
+			  class="form-control"
+			  placeholder="Password"
+			  ng-model="user.password"></input>
+			</div>
+			<button type="submit" class="btn btn-primary">Register</button>
+		  </form>
+		</script>
+
+		<script type="text/ng-template" id="/login.html">
+			<div ng-show="error" class="alert alert-danger row">
+				<span>{{ error.message }}</span>
+			</div>
+
+			<form ng-submit="logIn()"
+			style="margin-top:30px;">
+			<h3>Log In</h3>
+
+			<div class="form-group">
+			  <input type="text"
+			  class="form-control"
+			  placeholder="Username"
+			  ng-model="user.username"></input>
+			</div>
+			<div class="form-group">
+			  <input type="password"
+			  class="form-control"
+			  placeholder="Password"
+			  ng-model="user.password"></input>
+			</div>
+			<button type="submit" class="btn btn-primary">Log In</button>
+			</form>
+		</script>
+	</body>
 </html>

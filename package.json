@@ -13,9 +13,12 @@
     "ejs": "~2.3.1",
     "express": "~4.12.4",
     "jsonfile": "^2.2.2",
+    "jsonwebtoken": "^5.0.5",
     "moment": "^2.10.6",
     "mongoose": "^4.0.6",
     "morgan": "~1.5.3",
+    "passport": "^0.3.0",
+    "passport-local": "^1.0.0",
     "serve-favicon": "~2.2.1"
   },
   "engines": {
