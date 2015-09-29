@@ -6,8 +6,10 @@ var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
 var mongoose = require('mongoose');
 var moment = require('moment');
+var passport = require('passport');
 
-require('./models/entries');
+require('./models/Entries');
+require('./models/Users');
 
 mongoose.connect('mongodb://heroku_qlcrxz2p:ibda5hmkap9tsasjfodbv9sdg2@ds047592.mongolab.com:47592/heroku_qlcrxz2p');
 
@@ -27,6 +29,7 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
+app.use(passport.initialize());
 
 app.use('/', routes);
 app.use('/users', users);
